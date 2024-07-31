@@ -14,9 +14,6 @@ import com.novel.user.mapper.UserMapper;
 
 @Controller
 public class TestController {
-
-	@Autowired
-	UserMapper userMapper;
 	
 	@ResponseBody
     @RequestMapping("/test1")
@@ -40,11 +37,6 @@ public class TestController {
 		return "test/test3";
 	}
   
-  @ResponseBody
-	@GetMapping("/test4")
-	public List<Map<String, Object>> test4() {
-	  
-		return userMapper.selectUserListTest();
-	}
+
   
 }
