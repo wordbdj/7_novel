@@ -9,4 +9,20 @@
  		FROM
  			`user`
  	</select>
+ 	
+ 	<select id="selectUserByLoginId" resultType="com.novel.user.domain.User">
+ 		SELECT
+ 			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM	
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+ 	</select>
  </mapper>
