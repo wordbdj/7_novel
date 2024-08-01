@@ -27,7 +27,7 @@ public class UserController {
 		// session 내용 비움
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
-		session.removeAttribute("userName");
+		session.removeAttribute("userType");
 		
 		// 로그인 페이지 이동
 		return "redirect:/user/sign-in-view";

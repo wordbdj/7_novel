@@ -11,5 +11,16 @@ public interface UserMapper {
 	public User selectUserByLoginId(
 			@Param("loginId")String loginId);
 
+
+	public int insertUser(@Param("loginId")String loginId,
+			@Param("password")String password, 
+			@Param("name")String name, 
+			@Param("email")String email, 
+			@Param("type")String type);
+
+
+	public User selectUserByLoginIdPassword(@Param("loginId")String loginId,
+			@Param("password") String password);
+
 	
 }

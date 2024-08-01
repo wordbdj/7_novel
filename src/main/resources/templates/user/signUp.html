@@ -44,7 +44,7 @@
 				<tr>
 					<th>* 작가/편집자</th>	
 					<td>
-					<select class="custom-select" name="optionWriterEditor" id="optionWriterEditor">
+					<select class="custom-select" name="type" id="type">
 						  <option selected value="0">작가/편집자</option>
 						  <option value="1">작가</option>
 						  <option value="2">편집자</option>
@@ -111,8 +111,8 @@
 			let confirmPassword = $("#confirmPassword").val();
 			let name = $("#name").val().trim();
 			let email = $("#email").val().trim();
-			let optionWriterEditor = $("#optionWriterEditor").val().trim();
-			alert(optionWriterEditor);
+			let type = $("#type").val();
+			// alert(optionWriterEditor);
 			
 			if(!loginId) {
 				alert("아이디를 입력하세요");
@@ -139,7 +139,7 @@
 				return false;
 			}
 			
-			if (optionWriterEditor == 0) {
+			if (type == 0) {
 				alert("편집자 혹은 작가를 선택해주세요")
 				return false;
 			}

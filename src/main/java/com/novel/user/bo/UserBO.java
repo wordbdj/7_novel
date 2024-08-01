@@ -17,4 +17,15 @@ public class UserBO {
 		return userMapper.selectUserByLoginId(loginId);
 	}
 
+	public int addUser(String loginId, String password, String name, String email, String type) {
+		// TODO Auto-generated method stub
+		int user = userMapper.insertUser(loginId, password, name, email, type);
+		return user;
+	}
+
+	public User getUserEntityByLoginIdPassword(String loginId, String password) {
+		// TODO Auto-generated method stub
+		return userMapper.selectUserByLoginIdPassword(loginId, password);
+	}
+
 }

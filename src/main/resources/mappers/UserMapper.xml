@@ -25,4 +25,46 @@
 		WHERE
 			`loginId` = #{loginId}
  	</select>
+ 	
+ 	<insert id="insertUser" parameterType="map">
+ 		INSERT INTO `user`
+ 		(
+			`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{loginId}
+			, #{password}
+			, #{name}
+			, #{email}
+			, #{type}
+			, NOW()
+			, NOW()
+		)
+ 	
+ 	</insert>
+ 	
+ 	<select id="selectUserByLoginIdPassword" parameterType="map" resultType="com.novel.user.domain.User">
+ 		SELECT
+ 			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM	
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+		AND
+			`password` = #{password}
+ 	</select>
  </mapper>
