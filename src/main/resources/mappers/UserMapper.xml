@@ -67,4 +67,52 @@
 		AND
 			`password` = #{password}
  	</select>
+ 	
+ 	<select id="selectUserByLoginIdEmail" parameterType="map" resultType="com.novel.user.domain.User">
+ 		SELECT
+ 			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM	
+			`user`
+		WHERE
+			`loginId` = #{loginId}
+		AND
+			`email` = #{email}
+ 	</select>
+ 	
+ 	<select id="selectUserById" parameterType="int" resultType="com.novel.user.domain.User">
+ 		SELECT
+ 			`id`
+			,`loginId`
+			,`password`
+			,`name`
+			,`email`
+			,`type`
+			,`createdAt`
+			,`updatedAt`
+		FROM	
+			`user`
+		WHERE
+			`id` = #{id}
+ 	</select>
+ 	
+ 	<select id="selectUserJoinFollowByEditorUserId" parameterType="int" resultType="com.novel.user.domain.User">
+ 		SELECT
+ 			`follow`.`WritterUserId` AS `id`, `follow`.`createdAt` AS `createdAt`, `user`.`email` AS `email`, `user`.`loginId` AS `loginId`
+		FROM
+			`follow` 
+		JOIN
+			`user`
+		ON
+			`follow`.`EditorUserId` = `user`.id
+		WHERE 
+			`follow`.`EditorUserId` = #{userId};
+ 	</select>
+ 	
  </mapper>

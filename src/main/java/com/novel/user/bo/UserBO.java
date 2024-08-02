@@ -1,5 +1,8 @@
 package com.novel.user.bo;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +26,27 @@ public class UserBO {
 		return user;
 	}
 
-	public User getUserEntityByLoginIdPassword(String loginId, String password) {
+	public User getUserByLoginIdPassword(String loginId, String password) {
 		// TODO Auto-generated method stub
 		return userMapper.selectUserByLoginIdPassword(loginId, password);
 	}
+
+	public User getUserByLoginIdEmail(String loginId, String email) {
+		// TODO Auto-generated method stub
+		return userMapper.selectUserByLoginIdEmail(loginId, email);
+	}
+
+	public User getUserById(int id) {
+		
+		return userMapper.selectUserById(id);
+	}
+
+	public List<User> getUserJoinFollow(Integer userId) {
+		// TODO Auto-generated method stub
+		List<User> userList = userMapper.selectUserJoinFollowByEditorUserId(userId);
+		
+		return userList;
+	}
+
 
 }

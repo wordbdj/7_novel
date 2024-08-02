@@ -12,7 +12,7 @@
 					<th>아이디<br></th>
 						<td>
 							<div class="d-flex">
-								<input type="text" id="loginId" name="loginId" class="form-control col-9" placeholder="아이디를 입력하세요.">
+								<input type="text" id="loginId" name="loginId" class="form-control" placeholder="아이디를 입력하세요.">
 							</div>
 						</td>
 				</tr>
@@ -29,7 +29,50 @@
 
 <th:block layout:fragment="script">
     <script>
+    $(document).ready(function(){
+    	$("#addWriterBtn").on('click', function(){
+    		let loginId = $("#loginId").val().trim();
+    		let email = $("#email").val().trim();
+    		// alert(loginId, email)
+    		
+    		if(!loginId) {
+				alert("아이디를 입력하세요");
+				return false;
+			}
+    		
 
+			if (!email) {
+				alert("이메일을 입력하세요");
+				return false;
+			}
+			
+			let params = $(this).serialize();
+			console.log(params);
+			
+			$.ajax({
+				// request
+				type:"post"
+				, url:"/user/add-writer"
+				, data:{"loginId": loginId, "email":email}
+				
+				// response
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("작가를 추가하였습니다.");
+						// 로그인 화면 이동
+						location.href="/admin/admin-view";
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(e) {
+					alert("댓글 쓰기에 실패했습니다.");
+				}
+			});
+			
+    	});
+    });
+    
     </script>
 </th:block>
 <html>

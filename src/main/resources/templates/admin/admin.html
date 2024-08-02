@@ -4,7 +4,35 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 <section layout:fragment="content" class="contents d-flex justify-content-center">
-
+	<div class="w-50">
+		<h1>글목록</h1>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>이메일</th>
+					<th>작가</th>
+					<th>작가추가날짜</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="adminView : ${AdminViewList}">
+					<td th:text="${adminView.email}"></td>
+					<td><a th:href="|/novel/novel-list-view?userId=${adminView.id}|" th:text="${adminView.loginId}"></a></td>
+					<td th:text="${#temporals.format(adminView.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
+					<td>
+						<div class="d-flex justify-content-center">
+							<a href="/admin/add-writer-view" class="btn btn-success">작가 삭제</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div class="d-flex justify-content-end my-5">
+			<a href="/admin/add-writer-view" class="btn btn-warning">글쓰기</a>
+		</div>
+	</div>
 </section>
 
 <th:block layout:fragment="script">
@@ -12,4 +40,4 @@
 
     </script>
 </th:block>
-<html>
+</html>

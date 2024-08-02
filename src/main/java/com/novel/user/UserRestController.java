@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,7 +83,7 @@ public class UserRestController {
 
 		// Check user (UserEntity or null)
 		
-		User user = userBO.getUserEntityByLoginIdPassword(loginId, hashedPassword);
+		User user = userBO.getUserByLoginIdPassword(loginId, hashedPassword);
 		
 		// session & result
 		Map<String, Object> result = new HashMap<>();
@@ -100,5 +101,6 @@ public class UserRestController {
 		
 		return result;
 	}
+	
 	
 }

@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.ToString;
 
-@ToString
 @Data
+@ToString
 public class User {
 
 	private int id; 
