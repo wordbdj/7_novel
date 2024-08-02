@@ -2,5 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.novel.follow.mapper.FollowMapper">
+ 	<insert id="insertFollow" parameterType="map">
+ 		INSERT INTO `follow`
+ 		(
+ 			`EditorUserId`
+ 			,`WritterUserId`
+ 			,`createdAt`
+ 			,`updatedAt`
+ 		)
+ 		VALUES
+ 		(
+ 			#{EditorUserId}
+ 			,#{WritterUserId}
+ 			,NOW()
+ 			,NOW()
+ 		)
+ 	</insert>
  	
+ 	<delete id="deleteByWriterUserId" parameterType="int">
+		DELETE
+		FROM	
+			`follow`
+		WHERE
+			`WritterUserId` = #{WritterUserId}
+	</delete>
  </mapper>

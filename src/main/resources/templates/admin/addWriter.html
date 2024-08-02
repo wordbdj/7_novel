@@ -6,7 +6,7 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	
 	<div class="add-writer-box">
-		<form id="addWriterForm" method="post" action="/user/add-writer">
+		<form id="addWriterForm" method="post" action="/admin/follow/add-writer">
 			<table class="sign-up-table table table-bordered">
 				<tr>
 					<th>아이디<br></th>
@@ -40,7 +40,6 @@
 				return false;
 			}
     		
-
 			if (!email) {
 				alert("이메일을 입력하세요");
 				return false;
@@ -52,21 +51,20 @@
 			$.ajax({
 				// request
 				type:"post"
-				, url:"/user/add-writer"
+				, url:"/admin/follow/add-writer"
 				, data:{"loginId": loginId, "email":email}
 				
 				// response
 				, success:function(data) {
 					if (data.code == 200) {
 						alert("작가를 추가하였습니다.");
-						// 로그인 화면 이동
 						location.href="/admin/admin-view";
 					} else {
 						alert(data.error_message);
 					}
 				}
 				, error:function(e) {
-					alert("댓글 쓰기에 실패했습니다.");
+					alert("작가 추가를 실패했습니다.");
 				}
 			});
 			

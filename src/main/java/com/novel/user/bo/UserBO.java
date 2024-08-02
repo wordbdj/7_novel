@@ -42,7 +42,7 @@ public class UserBO {
 	}
 
 	public List<User> getUserJoinFollow(Integer userId) {
-		// TODO Auto-generated method stub
+
 		List<User> userList = userMapper.selectUserJoinFollowByEditorUserId(userId);
 		
 		return userList;

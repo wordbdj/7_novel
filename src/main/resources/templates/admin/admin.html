@@ -22,7 +22,7 @@
 					<td th:text="${#temporals.format(adminView.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<a href="/admin/add-writer-view" class="btn btn-success">작가 삭제</a>
+							<button class="btn btn-success" id="deleteWriterBtn" th:data-writer-id="${adminView.id}">작가 삭제</button>
 						</div>
 					</td>
 				</tr>
@@ -30,14 +30,38 @@
 		</table>
 		
 		<div class="d-flex justify-content-end my-5">
-			<a href="/admin/add-writer-view" class="btn btn-warning">글쓰기</a>
+			<a href="/admin/add-writer-view" class="btn btn-warning">작가 추가</a>
 		</div>
 	</div>
 </section>
 
 <th:block layout:fragment="script">
     <script>
-
+    $(document).ready(function(){
+		$("#deleteWriterBtn").on('click', function(){
+			let WriterUserId = $(this).data("writer-id");
+			// alert(WriterUserId);
+			console.log(WriterUserId);
+			
+			$.ajax({
+				// request
+				type:"delete"
+				, url:"/follow/delete"
+				, data:{"WriterUserId":WriterUserId}
+				,success:function(data) {
+					if (data.code == 200) {
+						alert("작가가 삭제되었습니다.");
+						location.href="/admin/admin-view";
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(e) {
+					alert("글을 삭제하는데 실패했습니다.");
+				}
+			});
+		});
+	});
     </script>
 </th:block>
 </html>

@@ -110,7 +110,7 @@
 		JOIN
 			`user`
 		ON
-			`follow`.`EditorUserId` = `user`.id
+			`follow`.`WritterUserId` = `user`.id
 		WHERE 
 			`follow`.`EditorUserId` = #{userId};
  	</select>

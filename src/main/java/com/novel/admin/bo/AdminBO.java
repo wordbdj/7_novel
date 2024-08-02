@@ -22,8 +22,17 @@ public class AdminBO {
 		
 		return userBO.getUserJoinFollow(userId);
 	}
-	
-	
 
+	public User getUserByLoginIdEmail(String loginId, String email) {
+
+		return userBO.getUserByLoginIdEmail(loginId, email);
+	}
+
+	public int insertFollow(int editerUserId, int writerUserId) {
+
+		return followBO.insertFollow(editerUserId, writerUserId);
+
+	}
+		
 
 }
