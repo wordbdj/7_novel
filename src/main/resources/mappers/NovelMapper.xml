@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.novel.novel.mapper.NovelMapper">
+ 	 	<select id="selectNovelListByUserId" parameterType="map" resultType="com.novel.novel.domain.Novel">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`title`
+			,`explain`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`novel`
+		WHERE
+			`userId` = #{userId}
+			<if test="direction == 'next'">
+			<![CDATA[
+			AND `id` < #{standardId}
+			ORDER BY `id` DESC
+			]]>
+			</if>
+			<if test="direction == 'prev'">
+			<![CDATA[
+			AND `id` > #{standardId}
+			]]>
+			</if>
+			<if test="direction == null">
+			ORDER BY `id` DESC
+			</if>
+		LIMIT ${limit}
+ 	</select>
+ 	
+  	<select id="selectNovelIdByUserIdAsSort" parameterType="map" resultType="int">
+ 		SELECT
+ 			`id`
+ 		FROM
+ 			`novel`
+ 		WHERE
+ 			`userId` = #{userId}
+ 		ORDER BY `id` ${sort}
+ 		LIMIT 1
+ 	</select>
+ 	
+ </mapper>
