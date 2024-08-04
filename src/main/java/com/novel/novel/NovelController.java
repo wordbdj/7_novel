@@ -29,7 +29,6 @@ public class NovelController {
 		
 		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
-			// 비로그인이면 로그인 페이지로 이동
 			return "redirect:/user/sign-in-view";
 		}
 
