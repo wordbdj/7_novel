@@ -22,7 +22,7 @@
 					<td th:text="${#temporals.format(adminView.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success" id="deleteWriterBtn" th:data-writer-id="${adminView.id}">작가 삭제</button>
+							<button class="btn btn-success deleteWriterBtn" th:data-writer-id="${adminView.id}">작가 삭제</button>
 						</div>
 					</td>
 				</tr>
@@ -38,7 +38,7 @@
 <th:block layout:fragment="script">
     <script>
     $(document).ready(function(){
-		$("#deleteWriterBtn").on('click', function(){
+		$(".deleteWriterBtn").on('click', function(){
 			let WriterUserId = $(this).data("writer-id");
 			// alert(WriterUserId);
 			console.log(WriterUserId);

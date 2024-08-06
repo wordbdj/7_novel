@@ -52,5 +52,10 @@ public List<Novel> getPostListByUserId(int userId, Integer prevId, Integer nextI
 		int minPostId = novelMapper.selectNovelIdByUserIdAsSort(userId, "ASC");
 		return minPostId == nextId; // 같으면 마지막
 	}
+
+	public int addNovel(String title, String explain, int userId) {
+
+		return novelMapper.insertNovel(title, explain, userId);
+	}
 	
 }

@@ -20,5 +20,10 @@ public interface NovelMapper {
 			@Param("userId")int userId,
 			@Param("sort") String sort);
 
+	int insertNovel(
+			@Param("title")String title,
+			@Param("explain")String explain,
+			@Param("userId") int userId);
+
 
 }

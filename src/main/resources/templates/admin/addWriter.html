@@ -45,13 +45,10 @@
 				return false;
 			}
 			
-			let params = $(this).serialize();
-			console.log(params);
-			
 			$.ajax({
 				// request
 				type:"post"
-				, url:"/admin/follow/add-writer"
+				, url:"/admin/add-writer"
 				, data:{"loginId": loginId, "email":email}
 				
 				// response

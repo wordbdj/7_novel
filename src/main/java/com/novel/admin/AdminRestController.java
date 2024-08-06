@@ -21,7 +21,7 @@ public class AdminRestController {
 	@Autowired
 	private AdminBO adminBO;
 	
-	@PostMapping("/follow/add-writer")
+	@PostMapping("/add-writer")
 	public Map<String, Object> addWriter(
 			@RequestParam("loginId")String loginId,
 			@RequestParam("email")String email,

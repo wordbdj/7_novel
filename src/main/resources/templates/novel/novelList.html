@@ -17,12 +17,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="post : ${postList}">
-					<td th:text="${post.id}">1</td>
-					<!-- <td><a th:href="@{/post/post-detail-view(postId=${post.id}, userId=13)}" th:text="${post.subject}"></a></td> -->
-					<td><a th:href="|/post/post-detail-view?postId=${post.id}|" th:text="${post.subject}"></a></td>
-					<td th:text="${#temporals.format(post.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
-					<td th:text="${#temporals.format(post.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
+				<tr th:each="novel : ${novelList}">
+					<td th:text="${novel.id}">1</td>
+					<td><a th:href="|/post/post-detail-view?postId=${novel.id}|" th:text="${novel.title}"></a></td>
+					<td th:text="${#temporals.format(novel.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
+					<td th:text="${#temporals.format(novel.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 				</tr>
 			</tbody>
 		</table>
@@ -35,11 +34,10 @@
 		
 		
 		<!-- 글쓰기 버튼 -->
-		<div class="d-flex justify-content-end">
-			<a href="/post/post-create-view" class="btn btn-warning">글쓰기</a>
+		<div class="d-flex justify-content-end" th:if="${session.userType} == 1">
+			<a href="/novel/novel-add-view" class="btn btn-warning">글쓰기</a>
 		</div>
 	</div>
-</section>
 </section>
 
 <th:block layout:fragment="script">

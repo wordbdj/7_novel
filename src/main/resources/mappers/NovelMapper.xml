@@ -42,4 +42,23 @@
  		LIMIT 1
  	</select>
  	
+ 	<insert id="insertNovel" parameterType="map">
+ 		INSERT INTO `user`
+ 		(
+			`userId`
+			,`title`
+			,`explain`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{title}
+			, #{explain}
+			, NOW()
+			, NOW()
+		)
+ 	
+ 	</insert>
  </mapper>

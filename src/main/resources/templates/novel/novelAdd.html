@@ -1,15 +1,68 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html 
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 <section layout:fragment="content" class="contents d-flex justify-content-center">
-
+	<div class="w-50">
+		<h1>글 추가</h1>
+		
+		<input type="text" id="title" class="form-control" placeholder="제목을 입력하세요">
+		<textarea rows="10" id="explain" class="form-control" placeholder="줄거리를 입력하세요"></textarea>
+		
+		<div class="d-flex justify-content-end">
+			<div class="my-4">
+				<button type="button" id="saveBtn" class="btn btn-warning">글 추가</button>
+			</div>
+		</div>
+		
+	</div>
 </section>
 
 <th:block layout:fragment="script">
     <script>
-
+    $(document).ready(function() {
+		
+		// 글쓰기
+		$("#saveBtn").on('click', function() {
+			//alert("글쓰기");
+			let title = $("#title").val().trim();
+			let explain = $("#explain").val();
+			
+			if (!title) {
+				alert("제목을 입력하세요");
+				return;
+			}
+			
+			// 파일명이 비워져 있지 않으면 => 확장자 체크
+			
+			console.log(title);
+			console.log(explain);
+			
+			
+			// AJAX
+			$.ajax({
+				// request
+				type:"post"
+				, url:"/novel/create"
+				, data:{"title": title, "explain":explain}
+				
+				// response
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("새로운 글이 저장되었습니다.");
+						// 글목록 화면 이동
+						location.href = "/novel/novel-list-view";
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(e) {
+					alert("글을 저장하는데 실패했습니다.");
+				}
+			});
+		});
+	});
     </script>
 </th:block>
 <html>

@@ -33,12 +33,12 @@ public class NovelController {
 		}
 
 		// DB 조회 - 글 목록
-		List<Novel> postList = novelBO.getPostListByUserId(userId, prevIdParam, nextIdParam);
+		List<Novel> novelList = novelBO.getPostListByUserId(userId, prevIdParam, nextIdParam);
 		int prevId = 0;
 		int nextId = 0;
-		if (postList.isEmpty() == false) { // 글목록이 비어있지 않을 떄 페이징 정보 세팅
-			prevId = postList.get(0).getId(); // 첫번째칸 id 
-			nextId = postList.get(postList.size()- 1).getId(); // 마지막 칸 id
+		if (novelList.isEmpty() == false) { // 글목록이 비어있지 않을 떄 페이징 정보 세팅
+			prevId = novelList.get(0).getId(); // 첫번째칸 id 
+			nextId = novelList.get(novelList.size()- 1).getId(); // 마지막 칸 id
 			
 			// 이전 방향의 끝인가? 그러면 0
 			// prevId와 테이블의 제일 큰 숫자와 같으면 이전의 끝 페이지
@@ -54,10 +54,20 @@ public class NovelController {
 			
 		}
 		// 모델에 담기
-		model.addAttribute("postList", postList);
+		model.addAttribute("novelList", novelList);
 		model.addAttribute("prevId", prevId);
 		model.addAttribute("nextId", nextId);
 
 		return "novel/novelList";
 	}
+	
+	@GetMapping("/novel-add-view")
+	public String novelAddView() {
+		
+		return "novel/novelAdd";
+	}
+	
+	
+			
+	
 }
