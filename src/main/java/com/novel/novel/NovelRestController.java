@@ -29,7 +29,7 @@ public class NovelRestController {
 		int userId = (int) session.getAttribute("userId");
 		
 		Integer novel = novelBO.addNovel(title, explain, userId);
-				
+					
 		Map<String, Object> result = new HashMap<>();
 		
 		if (novel != null) {

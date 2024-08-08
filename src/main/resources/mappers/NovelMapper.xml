@@ -43,7 +43,7 @@
  	</select>
  	
  	<insert id="insertNovel" parameterType="map">
- 		INSERT INTO `user`
+ 		INSERT INTO `novel`
  		(
 			`userId`
 			,`title`
