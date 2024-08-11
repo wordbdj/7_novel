@@ -34,4 +34,21 @@
 			</if>
 		LIMIT ${limit}
  	</select>
+ 		<select id="selectContentListByUserId" parameterType="map" resultType="com.novel.content.domain.Content">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`novelId`
+			,`title`
+			,`content`
+			,`uploadTime`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`content`
+		WHERE
+			`userId` = #{userId}
+		AND
+			`novelId` = #{novelId}
+ 	</select>
  </mapper>

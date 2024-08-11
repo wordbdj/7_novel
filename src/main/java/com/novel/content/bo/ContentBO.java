@@ -54,4 +54,14 @@ public class ContentBO {
 		return minPostId == nextId; // 같으면 마지막
 	}
 
+	public Integer addContent(String title, String content, int novelId, int userId) {
+		
+		return contentMapper.insertContent(title, content, userId, novelId);
+	}
+
+	public List<Content> getContentListByUserId(int userId, int novelId) {
+		
+		return contentMapper.selectContentListByUserId(userId, novelId);
+	}
+
 }

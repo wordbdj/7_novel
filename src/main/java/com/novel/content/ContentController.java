@@ -63,7 +63,18 @@ public class ContentController {
 	}
 	
 	@GetMapping("/content-detail-view")
-	public String novelDetailView() {
+	public String contentDetailView(
+			@RequestParam("novelId") int novelId,
+			HttpSession session, Model model) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
+		List<Content> contentList = contentBO.getContentListByUserId(userId, novelId);
+		
+		model.addAttribute("ContentList", contentList);
 		
 		return "content/contentDetail";
 	}

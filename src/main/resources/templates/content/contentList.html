@@ -6,7 +6,7 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="w-50">
 		<h1>소설 제목</h1>
-		<table class="table">
+		<table class="table" >
 			<thead>
 				<tr>
 					<th>No.</th>
@@ -19,24 +19,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="content : ${ContentList}">
-					<td th:text="${content.id}">1</td>
-					<td th:text="${novel.title}"></td>
-					<td th:text="${#temporals.format(novel.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
-					<td th:text="${#temporals.format(novel.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
+				<tr  th:each="content : ${ContentList}">
+					<td th:text="${content.id}" th:data-novel-id="${content.novelId}">1</td>
+					<td th:text="${content.title}"></td>
+					<td th:text="${#temporals.format(content.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
+					<td th:text="${#temporals.format(content.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success contentBtn" th:data-writer-id="${adminView.id}">글 확인</button>
+							<button class="btn btn-success contentBtn" th:data-writer-id="${content.id}">글 확인</button>
 						</div>
 					</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success commentBtn" th:data-writer-id="${adminView.id}">댓글 확인</button>
+							<button class="btn btn-success commentBtn" th:data-writer-id="${content.id}">댓글 확인</button>
 						</div>
 					</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success memoBtn" th:data-writer-id="${adminView.id}">메모 확인</button>
+							<button class="btn btn-success memoBtn" th:data-writer-id="${content.id}">메모 확인</button>
 						</div>
 					</td>
 				</tr>
@@ -52,14 +52,22 @@
 		
 		<!-- 글쓰기 버튼 -->
 		<div class="d-flex justify-content-end" th:if="${session.userType} == 1">
-			<a href="/content/content-detail-view" class="btn btn-warning">글 추가</a>
+			<a class="btn btn-warning addBtn">글 추가</a>
 		</div>
 	</div>
 </section>
 
 <th:block layout:fragment="script">
     <script>
-
+    $(document).ready(function() {
+    	
+    	let novelId = $(this).data("novel-id");
+    	
+	    $(".addBtn").on('click', function(e){
+	    	console.log(novelId)
+			// location.href="/content/content-detail-view?novelId="+novelId;
+		});
+	});
     </script>
 </th:block>
-<html>
+</html>
