@@ -58,13 +58,13 @@ public class ContentController {
 		model.addAttribute("ContentList", contentList);
 		model.addAttribute("prevId", prevId);
 		model.addAttribute("nextId", nextId);
-		
+		model.addAttribute("novelId", novelId);
 		return "content/contentList";
 	}
 	
 	@GetMapping("/content-detail-view")
 	public String contentDetailView(
-			@RequestParam("novelId") int novelId,
+			@RequestParam(value="novelId") int novelId,
 			HttpSession session, Model model) {
 		
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -72,9 +72,10 @@ public class ContentController {
 			return "redirect:/user/sign-in-view";
 		}
 		
-		List<Content> contentList = contentBO.getContentListByUserId(userId, novelId);
+		List<Content> ContentList = contentBO.getContentListByUserId(userId, novelId);
 		
-		model.addAttribute("ContentList", contentList);
+		model.addAttribute("ContentList", ContentList);
+		model.addAttribute("novelId", novelId);
 		
 		return "content/contentDetail";
 	}

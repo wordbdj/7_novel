@@ -20,8 +20,8 @@
 			</thead>
 			<tbody>
 				<tr  th:each="content : ${ContentList}">
-					<td th:text="${content.id}" th:data-novel-id="${content.novelId}">1</td>
-					<td th:text="${content.title}"></td>
+					<td th:text="${content.id}"></td>
+					<td th:text="${content.title}" th:href="'/content/content-detail-view?title='+${content.title}"></td>
 					<td th:text="${#temporals.format(content.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td th:text="${#temporals.format(content.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td>
@@ -45,14 +45,14 @@
 		
 		<!-- 페이징 -->
 		<div class="text-center">
-			<a th:if="${prevId != 0}" th:href="|/post/post-list-view?prevId=${prevId}|" class="mr-5">&lt;&lt;이전</a>
-			<a th:if="${nextId != 0}" th:href="'/post/post-list-view?nextId='+ ${nextId}">다음 &gt;&gt;</a>
+			<a th:if="${prevId != 0}" th:href="|/content/content-list-view?prevId=${prevId}&novelId=${novelId}|" class="mr-5">&lt;&lt;이전</a>
+			<a th:if="${nextId != 0}" th:href="|/content/content-list-view?nextId=${nextId}&novelId=${novelId}|">다음 &gt;&gt;</a>
 		</div>
 		
 		
 		<!-- 글쓰기 버튼 -->
 		<div class="d-flex justify-content-end" th:if="${session.userType} == 1">
-			<a class="btn btn-warning addBtn">글 추가</a>
+			<a class="btn btn-warning addBtn"  th:data-novel-id="${novelId}">글 추가</a>
 		</div>
 	</div>
 </section>
@@ -61,11 +61,11 @@
     <script>
     $(document).ready(function() {
     	
-    	let novelId = $(this).data("novel-id");
     	
 	    $(".addBtn").on('click', function(e){
+	    	let novelId = $(this).data("novel-id");
 	    	console.log(novelId)
-			// location.href="/content/content-detail-view?novelId="+novelId;
+			location.href="/content/content-detail-view?novelId="+novelId;
 		});
 	});
     </script>

@@ -33,7 +33,19 @@
 			ORDER BY `id` DESC
 			</if>
 		LIMIT ${limit}
- 	</select>
+ 		</select>
+ 		
+ 	  	<select id="selectContentIdByUserIdAsSort" parameterType="map" resultType="int">
+ 		SELECT
+ 			`id`
+ 		FROM
+ 			`novel`
+ 		WHERE
+ 			`userId` = #{userId}
+ 		ORDER BY `id` ${sort}
+ 		LIMIT 1
+ 		</select>
+ 	
  		<select id="selectContentListByUserId" parameterType="map" resultType="com.novel.content.domain.Content">
  		SELECT
  			`id`
@@ -50,5 +62,44 @@
 			`userId` = #{userId}
 		AND
 			`novelId` = #{novelId}
- 	</select>
+	 	</select>
+	 	
+	 	<select id="selectContentListByTitle" parameterType="String" resultType="com.novel.content.domain.Content">
+	 		SELECT
+	 			`id`
+				,`userId`
+				,`novelId`
+				,`title`
+				,`content`
+				,`uploadTime`
+				,`createdAt`
+				,`updatedAt`
+			FROM
+				`content`
+			WHERE
+				`title` = #{title}
+	 	</select>
+	 	
+	 	<insert id="insertContent" parameterType="map">
+	 		INSERT INTO `content`
+	 		(
+				`userId`
+				,`novelId`
+				,`title`
+				,`content`
+				,`uploadTime`
+				,`createdAt`
+				,`updatedAt`
+	 		)
+	 		VALUES
+	 		(
+	 			#{userId}
+	 			,#{novelId}
+	 			,#{title}
+	 			,#{content}
+	 			,#{uploadTime}
+	 			,NOW()
+	 			,NOW()
+	 		)
+	 	</insert>
  </mapper>

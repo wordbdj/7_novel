@@ -1,5 +1,6 @@
 package com.novel.content.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -26,10 +27,16 @@ public interface ContentMapper {
 			@Param("sort") String sort);
 
 	Integer insertContent(
-			@Param("title")String title,
-			@Param("content")String content,
 			@Param("userId")int userId,
-			@Param("content") int novelId);
+			@Param("novelId")int novelId,
+			@Param("title")String title,
+			@Param("content") String content,
+			@Param("uploadTime") LocalDateTime uploadTime
+			);
+
+	List<Content> selectContentListByTitle(
+			@Param("title")String title);
+
 
 	
 	

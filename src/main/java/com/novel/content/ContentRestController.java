@@ -1,10 +1,11 @@
 package com.novel.content;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,16 +21,23 @@ public class ContentRestController {
 	@Autowired
 	private ContentBO contentBO;
 	
-	@GetMapping("/create")
+	@PostMapping("/create")
 	public Map<String, Object> create(
 			@RequestParam("title")String title,
 			@RequestParam("content")String content,
 			@RequestParam("novelId") int novelId,
+			@RequestParam(value = "uploadTime", required = false) LocalDateTime uploadTime,
 			HttpSession session){
 		
 		int userId = (int) session.getAttribute("userId");
 		
-		Integer Content = contentBO.addContent(title, content, novelId, userId);
+		if (uploadTime == null) {
+			LocalDateTime time = LocalDateTime.now();
+			LocalDateTime  DayPast = time.plusDays(1);
+			uploadTime = DayPast;
+		}
+		
+		Integer Content = contentBO.addContent(userId, novelId, title, content, uploadTime);
 					
 		Map<String, Object> result = new HashMap<>();
 		

@@ -1,5 +1,6 @@
 package com.novel.content.bo;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.novel.content.domain.Content;
 import com.novel.content.mapper.ContentMapper;
-import com.novel.novel.domain.Novel;
 
 @Service
 public class ContentBO {
@@ -54,14 +54,19 @@ public class ContentBO {
 		return minPostId == nextId; // 같으면 마지막
 	}
 
-	public Integer addContent(String title, String content, int novelId, int userId) {
+	public Integer addContent( int userId, int novelId, String title, String content, LocalDateTime uploadTime) {
 		
-		return contentMapper.insertContent(title, content, userId, novelId);
+		return contentMapper.insertContent(userId, novelId, title, content, uploadTime);
 	}
 
 	public List<Content> getContentListByUserId(int userId, int novelId) {
 		
 		return contentMapper.selectContentListByUserId(userId, novelId);
+	}
+
+	public List<Content> getContentListByTitle(String title) {
+
+		return contentMapper.selectContentListByTitle(title);
 	}
 
 }
