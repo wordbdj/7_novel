@@ -6,10 +6,17 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="w-50">
 		<h1>글 추가</h1>
-		<div>
-			<input type="text" id="title" class="form-control" placeholder="제목을 입력하세요">
-			<textarea rows="10" id="content" class="form-control" placeholder="줄거리를 입력하세요"></textarea>
-		</div>
+			<div>
+				<div >
+					<input th:if="${title} == noTitle" type="text" id="titleInclude" class="form-control" placeholder="제목을 입력하세요">
+					<textarea th:if="${title} == noTitle" rows="10" id="contentInclude" class="form-control" placeholder="줄거리를 입력하세요"></textarea>
+				</div>
+				<div th:each="content : ${ContentList}">
+					<input th:unless="${title} == noTitle" type="text" id="titleNotInclude" class="form-control" th:value="${content.title}">
+					<textarea th:unless="${title} == noTitle" rows="10" id="contentNotInclude" class="form-control" th:data-content="${content.content}"></textarea>
+				</div>
+			</div>
+			
 		<div>
 			<div class="d-flex">
 				<div class="my-4 d-flex justify-content-start">
@@ -21,8 +28,8 @@
 			</div>
 			<div class="d-flex justify-content-end">
 				<div class="my-4">
-					<button th:if="novelId != null" type="button" id="saveBtn" class="btn btn-warning" th:data-novel-id="${novelId}">저장</button>
-					<button th:unless="novelId != null" type="button" id="editBtn" class="btn btn-warning" th:data-novel-id="${novelId}">수정</button>
+					<button th:if="${title} == noTitle" type="button" id="saveBtn" class="btn btn-warning" th:data-novel-id="${novelId}">저장</button>
+					<button th:unless="${title} == noTitle" type="button" id="editBtn" class="btn btn-warning" th:data-novel-id="${novelId}">수정</button>
 				</div>
 				<div class="my-4">
 					<button type="button" id="clearBtn" class="btn btn-warning">모두 지우기</button>
@@ -52,11 +59,12 @@
 <th:block layout:fragment="script">
     <script>
     $(document).ready(function() {
-		
+    	
+    	
 		// 글쓰기
 		$("#saveBtn").on('click', function() {
-			let title = $("#title").val().trim();
-			let content = $("#content").val();
+			let title = $("#titleNotInclude").val().trim();
+			let content = $("#contentNotInclude").val();
 			let novelId = $(this).data("novel-id");
 			let uploadTime = $("#LocalDateTimeBtn").val().trim();
 			

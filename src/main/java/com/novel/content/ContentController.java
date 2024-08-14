@@ -65,6 +65,7 @@ public class ContentController {
 	@GetMapping("/content-detail-view")
 	public String contentDetailView(
 			@RequestParam(value="novelId") int novelId,
+			@RequestParam(value="title", required = false)String title,
 			HttpSession session, Model model) {
 		
 		Integer userId = (Integer) session.getAttribute("userId");
@@ -72,16 +73,34 @@ public class ContentController {
 			return "redirect:/user/sign-in-view";
 		}
 		
-		List<Content> ContentList = contentBO.getContentListByUserId(userId, novelId);
+
 		
-		model.addAttribute("ContentList", ContentList);
+		if (title != null) {
+			List<Content> ContentList = contentBO.getContentListByTitle(title);
+			model.addAttribute("ContentList", ContentList);
+		} else {
+			title = "noTitle";
+		}
+		
+		
+		model.addAttribute("title", title);
 		model.addAttribute("novelId", novelId);
 		
 		return "content/contentDetail";
 	}
 	
 	@GetMapping("/content-memo-view")
-	public String novelMemoView() {
+	public String novelMemoView(
+			@RequestParam(value="title")String title,
+			HttpSession session, Model model) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
+		List<Content> ContentList = contentBO.getContentListByTitle(title);
+		model.addAttribute("ContentList", ContentList);
 		
 		return "content/contentMemo";
 	}
