@@ -102,4 +102,20 @@
 	 			,NOW()
 	 		)
 	 	</insert>
+	 	
+	 	<update id="updateContentByUserIdNovelIdContentId" parameterType="map">
+ 		UPDATE `content`
+ 		SET
+ 			`title` = #{title}
+			,`content` = #{content}
+			,`uploadTime` = #{uploadTime}
+		WHERE
+			`id` = #{contentId}
+		AND
+			`userId` = #{userId}
+		AND
+			`novelId` = #{novelId}
+			
+ 	</update>
+ 	
  </mapper>

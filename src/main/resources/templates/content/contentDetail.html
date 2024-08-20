@@ -7,13 +7,15 @@
 	<div class="w-50">
 		<h1>글 추가</h1>
 			<div>
-				<div >
-					<input th:if="${title} == noTitle" type="text" id="titleInclude" class="form-control" placeholder="제목을 입력하세요">
-					<textarea th:if="${title} == noTitle" rows="10" id="contentInclude" class="form-control" placeholder="줄거리를 입력하세요"></textarea>
+				<div th:if="${title} == noTitle">
+					<input type="text" id="titleNotInclude" class="form-control" placeholder="제목을 입력하세요">
+					<textarea th:if="${title} == noTitle" rows="10" id="contentNotInclude" class="form-control" placeholder="줄거리를 입력하세요"></textarea>
+					<button th:if="${title} == noTitle"  type="button" id="saveBtn" class="btn btn-warning" th:data-novel-id="${novelId}">저장</button>
 				</div>
-				<div th:each="content : ${ContentList}">
-					<input th:unless="${title} == noTitle" type="text" id="titleNotInclude" class="form-control" th:value="${content.title}">
-					<textarea th:unless="${title} == noTitle" rows="10" id="contentNotInclude" class="form-control" th:data-content="${content.content}"></textarea>
+				<div th:each="content : ${ContentList}" th:unless="${title} == noTitle">
+					<input type="text" id="titleInclude " class="form-control" th:value="${content.title}">
+					<textarea  rows="10" id="contentInclude" class="form-control" th:text="${content.content}"></textarea>
+					<button  th:if="${session.userType} == 1" type="button" id="editBtn" class="btn btn-warning" th:data-novel-id="${novelId}" th:data-content-id="${content.id}">수정</button>
 				</div>
 			</div>
 			
@@ -22,17 +24,13 @@
 				<div class="my-4 d-flex justify-content-start">
 					<input type="file" id="file"> 
 				</div>
-				<a href="#" class="more-btn" data-toggle="modal" data-target="#modal">
-					<button type="button" class="btn btn-warning timeBtn">시간 저장</button>
-				</a>
 			</div>
 			<div class="d-flex justify-content-end">
 				<div class="my-4">
-					<button th:if="${title} == noTitle" type="button" id="saveBtn" class="btn btn-warning" th:data-novel-id="${novelId}">저장</button>
-					<button th:unless="${title} == noTitle" type="button" id="editBtn" class="btn btn-warning" th:data-novel-id="${novelId}">수정</button>
-				</div>
-				<div class="my-4">
-					<button type="button" id="clearBtn" class="btn btn-warning">모두 지우기</button>
+					<a href="#" class="more-btn" data-toggle="modal" data-target="#modal">
+						<button th:if="${session.userType} == 1" type="button" class="btn btn-warning timeBtn">시간 저장</button>
+					</a>
+					<button th:if="${session.userType} == 1" type="button" id="clearBtn" class="btn btn-warning">모두 지우기</button>
 				</div>
 			</div>
 			
@@ -60,6 +58,9 @@
     <script>
     $(document).ready(function() {
     	
+    	
+    	let contentIncludeValue = document.getElementById('contentInclude').value;
+        console.log(contentInclude);
     	
 		// 글쓰기
 		$("#saveBtn").on('click', function() {
@@ -102,6 +103,56 @@
 				}
 			});
 		});
+		
+		
+		$("#editBtn").on('click', function() {
+			let title = $("#titleInclude").val();
+			console.log(title)
+			let content = $("#contentInclude").val();
+			console.log(content);
+			let novelId = $(this).data("novel-id");
+			let contentId = $(this).data("content-id");
+			console.log(contentId);
+			let uploadTime = $("#LocalDateTimeBtn").val().trim();
+			
+			
+			if (!title) {
+				alert("제목을 입력하세요");
+				return;
+			}
+			
+			if (!content) {
+				alert("내용을 입력하세요");
+				return;
+			}
+			
+			console.log(title);
+			console.log(content);
+			console.log(novelId);
+			
+			
+			// AJAX
+			$.ajax({
+				// request
+				type:"put"
+				, url:"/content/update"
+				, data:{"title": title, "content":content, "novelId":novelId, "uploadTime":uploadTime, "contentId":contentId}
+				// response
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("글이 수정되었습니다.");
+						location.href = "/content/content-list-view?novelId="+novelId;
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(e) {
+					alert("글을 저장하는데 실패했습니다.");
+				}
+			});
+		});
+		
+		
 		
 		// 모두 지우기
 		$("#clearBtn").on('click', function() {

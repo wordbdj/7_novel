@@ -19,7 +19,7 @@
 			<tbody>
 				<tr th:each="novel : ${novelList}">
 					<td th:text="${novel.id}">1</td>
-					<td><a th:href="|/content/content-list-view?novelId=${novel.id}|" th:text="${novel.title}"></a></td>
+					<td><a th:href="|/content/content-list-view?novelId=${novel.id}&userId=${novel.userId}|" th:text="${novel.title}"></a></td>
 					<td th:text="${#temporals.format(novel.createdAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td th:text="${#temporals.format(novel.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 				</tr>

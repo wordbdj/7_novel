@@ -25,12 +25,17 @@ public class NovelController {
 	public String novelListView(
 			@RequestParam(value = "prevId", required = false) Integer prevIdParam,
 			@RequestParam(value = "nextId", required = false) Integer nextIdParam,
+			@RequestParam(value = "userId", required = false) Integer userId,
 			HttpSession session, Model model) {
 		
-		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
-			return "redirect:/user/sign-in-view";
+			Integer UserId = (Integer) session.getAttribute("userId");
+			userId = UserId;
+			if (userId == null) {
+				return "redirect:/user/sign-in-view";
+			}
 		}
+		
 
 		// DB 조회 - 글 목록
 		List<Novel> novelList = novelBO.getNovelListByUserId(userId, prevIdParam, nextIdParam);

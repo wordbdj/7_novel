@@ -37,6 +37,14 @@ public interface ContentMapper {
 	List<Content> selectContentListByTitle(
 			@Param("title")String title);
 
+	Integer updateContentByUserIdNovelIdContentId(
+			@Param("userId")int userId,
+			@Param("novelId")int novelId,
+			@Param("contentId")int contentId,
+			@Param("title")String title,
+			@Param("content") String content,
+			@Param("uploadTime") LocalDateTime uploadTimeint);
+
 
 	
 	

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+		<div class=" d-flex">
+			<div  th:each="comment : ${CommentList}">			
+				<div class="justify-content-end col-6" th:text="${comment.comment}"></div>
+			</div>
+		</div>
+		
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+
+    </script>
+</th:block>
+</html>

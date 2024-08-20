@@ -26,17 +26,17 @@
 					<td th:text="${#temporals.format(content.updatedAt, 'yyyy년 M월 d일 HH:mm:ss')}">2024-07-16</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success contentBtn" th:data-novel-id="${novelId}" th:data-writer-id="${content.id}" th:data-title="${content.title}">글 확인</button>
+							<button class="btn btn-success contentBtn" th:data-novel-id="${novelId}" th:data-user-id="${content.userId}" th:data-content-id="${content.id}" th:data-title="${content.title}">글 확인</button>
 						</div>
 					</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success commentBtn" th:data-novel-id="${novelId}" th:data-writer-id="${content.id}" th:data-title="${content.title}">댓글 확인</button>
+							<button class="btn btn-success commentBtn" th:data-novel-id="${novelId}" th:data-user-id="${content.userId}" th:data-content-id="${content.id}" th:data-title="${content.title}">댓글 확인</button>
 						</div>
 					</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<button class="btn btn-success memoBtn" th:data-novel-id="${novelId}" th:data-writer-id="${content.id}" th:data-title="${content.title}">메모 확인</button>
+							<button class="btn btn-success memoBtn" th:data-novel-id="${novelId}" th:data-user-id="${content.userId}" th:data-content-id="${content.id}" th:data-title="${content.title}">메모 확인</button>
 						</div>
 					</td>
 				</tr>
@@ -69,21 +69,32 @@
 		});
 	    
 	    $(".contentBtn").on('click', function(e){
+	    	let userId = $(this).data("user-id");
 	    	let novelId = $(this).data("novel-id");
-	    	let userId = $(this).data("writer-id");
-	    	let title = $(this).data("title")
+	    	let title = $(this).data("title");
 	    	console.log(novelId)
 	    	console.log(title)
 			location.href="/content/content-detail-view?title="+title+"&novelId="+novelId+"&userId="+userId;
 		});
 	    
-	    $(".memoBtn").on('click', function(e){
+	    $(".commentBtn").on('click', function(e){
+	    	let userId = $(this).data("user-id");
 	    	let novelId = $(this).data("novel-id");
-	    	let userId = $(this).data("writer-id");
+	    	let contentId = $(this).data("content-id");
+	    	let title = $(this).data("title");
+	    	console.log(novelId)
+	    	console.log(title)
+			location.href="/content/content-comment-view?title="+title+"&novelId="+novelId+"&contentId="+contentId;
+		});
+	    
+	    $(".memoBtn").on('click', function(e){
+	    	let userId = $(this).data("user-id");
+	    	let novelId = $(this).data("novel-id");
+	    	let contentId = $(this).data("content-id");
 	    	let title = $(this).data("title")
 	    	console.log(novelId)
 	    	console.log(title)
-			location.href="/content/content-memo-view?title="+title+"&novelId="+novelId+"&userId="+userId;
+			location.href="/content/content-memo-view?title="+title+"&novelId="+novelId+"&contentId="+contentId+"&userId="+userId;
 		});
 	    
 	    

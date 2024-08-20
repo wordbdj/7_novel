@@ -1,4 +1,4 @@
-package com.novel.novel;
+package com.novel.memo;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,30 +9,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.novel.novel.bo.NovelBO;
+import com.novel.memo.bo.MemoBO;
 
 import jakarta.servlet.http.HttpSession;
 
-@RequestMapping("/novel")
 @RestController
-public class NovelRestController {
-
-	@Autowired
-	private NovelBO novelBO;
+@RequestMapping("/memo")
+public class MemoRestController {
 	
+	@Autowired
+	private MemoBO memoBO;
+
 	@PostMapping("/create")
 	public Map<String, Object> create(
-			@RequestParam("title")String title,
-			@RequestParam("explain")String explain,
+			@RequestParam("novelId") int novelId,
+			@RequestParam("contentId") int contentId,
+			@RequestParam("memo") String memo,
 			HttpSession session){
 			
 		int userId = (int) session.getAttribute("userId");
 		
-		Integer novel = novelBO.addNovel(title, explain, userId);
+		Integer Memo = memoBO.addMemo(userId, novelId, contentId, memo);
 					
 		Map<String, Object> result = new HashMap<>();
 		
-		if (novel != null) {
+		if (Memo != null) {
 			result.put("code", 200);
 			result.put("result", "성공");
 		} else {
@@ -43,5 +44,6 @@ public class NovelRestController {
 		return result;
 		
 	}
+	
 	
 }

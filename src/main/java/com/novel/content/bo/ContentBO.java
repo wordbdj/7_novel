@@ -69,4 +69,10 @@ public class ContentBO {
 		return contentMapper.selectContentListByTitle(title);
 	}
 
+	public Integer updateContentByUserIdNovelIdContentId(int userId, int novelId, int contentId, String title,
+			String content, LocalDateTime uploadTime) {
+		
+		return contentMapper.updateContentByUserIdNovelIdContentId(userId, novelId, contentId, title, content, uploadTime);
+	}
+
 }

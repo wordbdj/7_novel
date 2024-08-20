@@ -3,13 +3,80 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
-<section layout:fragment="content" class="contents d-flex justify-content-center">
-
+<section layout:fragment="content" class="contents d-flex">
+		<div class=" d-flex">
+			<div  th:each="content : ${ContentList}">
+				<div class="justify-content-start col-6" th:text="${content.content}"></div>
+			</div>
+			<div  th:each="memo : ${MemoList}">
+				<div class="justify-content-end col-6" th:text="${memo.memo}"></div>
+			</div>
+		</div>
+		
+		<div class=" justify-content-end" th:each="content : ${ContentList}">
+			<a class="btn btn-warning returnBtn" th:href="|/content/content-list-view?userId=${content.userId}&novelId=${content.novelId}|">돌아가기</a>
+			<a class="btn btn-warning createBtn" data-toggle="modal" data-target="#modal" th:data-title="${content.title}" th:data-user-id="${content.userId}" th:data-novel-id="${content.novelId}"th:data-content-id="${content.id}">메모 생성</a>
+		</div>
+		
+		
+		<!-- Modal: 타임리프 레이아웃 때문에 section 태그 안쪽에 위치 -->
+		<div class="modal fade" id="modal">
+		<!-- modal-sm : 작은 모달창, modal-dialog-centered: 수직 가운데 정렬 -->
+		  <div class="modal-dialog modal-sm modal-dialog-centered">
+		    <div class="modal-content text-center">
+		    	<div class="py-3">
+		    		<textarea id="memo"></textarea>
+		    	</div>
+		    	<div class="py-3 border-top">
+		    		<button type="button" id="saveBtn" class="btn btn-warning">저장</button>
+		    	</div>
+		    </div>
+		  </div>
+		</div>
 </section>
 
 <th:block layout:fragment="script">
     <script>
+    $(document).ready(function() {
+    	$(".createBtn").on('click', function(e) {
+    		let userId = $(this).data("user-id");
+    		let novelId = $(this).data("novel-id");
+    		let contentId = $(this).data("content-id");
+    		let title = $(this).data("title");
 
+    		console.log(userId)
+    		console.log(novelId)
+    		console.log(contentId)
+    		console.log(memo)
+    		
+    		$("#saveBtn").on('click', function(){
+    		
+        		let memo = $("#memo").val();
+        		console.log(memo);
+        		
+        		// AJAX
+    			$.ajax({
+    				// request
+    				type:"post"
+    				, url:"/memo/create"
+    				, data:{"userId": userId, "novelId":novelId, "contentId":contentId, "memo":memo}
+    				// response
+    				, success:function(data) {
+    					if (data.code == 200) {
+    						alert("글이 저장되었습니다.");
+    						location.href = "/content/content-memo-view?title="+title+"&novelId="+novelId+"&contentId="+contentId+"&userId="+userId;
+    					} else {
+    						alert(data.error_message);
+    					}
+    				}
+    				, error:function(e) {
+    					alert("글을 저장하는데 실패했습니다.");
+    				}
+    			});
+    		});
+        		
+    		});
+    	});
     </script>
 </th:block>
 </html>

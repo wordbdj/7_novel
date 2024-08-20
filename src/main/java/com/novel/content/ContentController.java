@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.novel.comment.bo.CommentBO;
+import com.novel.comment.domain.Comment;
 import com.novel.content.bo.ContentBO;
 import com.novel.content.domain.Content;
+import com.novel.memo.bo.MemoBO;
+import com.novel.memo.domain.Memo;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -22,16 +26,26 @@ public class ContentController {
 	@Autowired
 	private ContentBO contentBO;
 	
+	@Autowired
+	private MemoBO memoBO;
+	
+	@Autowired
+	private CommentBO commentBO;
+	
 	@GetMapping("/content-list-view")
 	public String novelListview(
 			@RequestParam(value = "prevId", required = false) Integer prevIdParam,
 			@RequestParam(value = "nextId", required = false) Integer nextIdParam,
+			@RequestParam(value = "userId", required = false) Integer userId,
 			@RequestParam("novelId") int novelId,
 			HttpSession session, Model model) {
 		
-		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
-			return "redirect:/user/sign-in-view";
+			Integer UserId = (Integer) session.getAttribute("userId");
+			userId = UserId;
+			if (userId == null) {
+				return "redirect:/user/sign-in-view";
+			}
 		}
 		
 		List<Content> contentList = contentBO.getContentListByUserId(userId, novelId, prevIdParam, nextIdParam);
@@ -66,11 +80,15 @@ public class ContentController {
 	public String contentDetailView(
 			@RequestParam(value="novelId") int novelId,
 			@RequestParam(value="title", required = false)String title,
+			@RequestParam(value = "userId", required = false) Integer userId,
 			HttpSession session, Model model) {
 		
-		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
-			return "redirect:/user/sign-in-view";
+			Integer UserId = (Integer) session.getAttribute("userId");
+			userId = UserId;
+			if (userId == null) {
+				return "redirect:/user/sign-in-view";
+			}
 		}
 		
 
@@ -91,17 +109,51 @@ public class ContentController {
 	
 	@GetMapping("/content-memo-view")
 	public String novelMemoView(
-			@RequestParam(value="title")String title,
+			@RequestParam("contentId") int contentId,
+			@RequestParam("title")String title,
+			@RequestParam(value = "userId", required = false) Integer userId,
+
 			HttpSession session, Model model) {
 		
-		Integer userId = (Integer) session.getAttribute("userId");
 		if (userId == null) {
-			return "redirect:/user/sign-in-view";
+			Integer UserId = (Integer) session.getAttribute("userId");
+			userId = UserId;
+			if (userId == null) {
+				return "redirect:/user/sign-in-view";
+			}
 		}
 		
 		List<Content> ContentList = contentBO.getContentListByTitle(title);
+		List<Memo> MemoList = memoBO.getMemoByContentId(contentId);
+		
+		model.addAttribute("MemoList", MemoList);
 		model.addAttribute("ContentList", ContentList);
 		
 		return "content/contentMemo";
+	}
+	
+
+	@GetMapping("/content-comment-view")
+	public String contentCommentView(
+			@RequestParam("contentId") int contentId,
+			@RequestParam("title")String title,
+			@RequestParam(value = "userId", required = false) Integer userId,
+			HttpSession session, Model model) {
+		
+		if (userId == null) {
+			Integer UserId = (Integer) session.getAttribute("userId");
+			userId = UserId;
+			if (userId == null) {
+				return "redirect:/user/sign-in-view";
+			}
+		}
+		
+		List<Content> ContentList = contentBO.getContentListByTitle(title);
+		List<Comment> CommentList = commentBO.getCommentByContentId(contentId);
+		
+		model.addAttribute("CommentList", CommentList);
+		model.addAttribute("ContentList", ContentList);
+		
+		return "content/contentComment";
 	}
 }
