@@ -13,7 +13,7 @@
 					<button th:if="${title} == noTitle"  type="button" id="saveBtn" class="btn btn-warning" th:data-novel-id="${novelId}">저장</button>
 				</div>
 				<div th:each="content : ${ContentList}" th:unless="${title} == noTitle">
-					<input type="text" id="titleInclude " class="form-control" th:value="${content.title}">
+					<input type="text" id="titleInclude" class="form-control" th:value="${content.title}">
 					<textarea  rows="10" id="contentInclude" class="form-control" th:text="${content.content}"></textarea>
 					<button  th:if="${session.userType} == 1" type="button" id="editBtn" class="btn btn-warning" th:data-novel-id="${novelId}" th:data-content-id="${content.id}">수정</button>
 				</div>
@@ -43,10 +43,12 @@
 		  <div class="modal-dialog modal-sm modal-dialog-centered">
 		    <div class="modal-content text-center">
 		    	<div class="py-3">
-		    		<a href="#" id="LocalDateTimeBtn"></a>
+		    		<span>몇 시간뒤 업로드 하실건가요?</span>
+		    		<input id="LocalDateTimeBtn">
 		    	</div>
-		    	<div class="py-3 border-top">
+		    	<div class="py-3 border-top d-flex justify-content-around">
 		    		<a href="#" data-dismiss="modal">취소</a>
+		    		<a href="#" data-dismiss="modal" id="updateBtn">저장</a>
 		    	</div>
 		    </div>
 		  </div>
@@ -61,6 +63,8 @@
     	
     	let contentIncludeValue = document.getElementById('contentInclude').value;
         console.log(contentInclude);
+		let title = $("#titleInclude").val();
+		console.log(title);
     	
 		// 글쓰기
 		$("#saveBtn").on('click', function() {
@@ -81,7 +85,8 @@
 			
 			console.log(title);
 			console.log(content);
-			console.log(novelId)
+			console.log(novelId);
+			console.log(uploadTime);
 			
 			// AJAX
 			$.ajax({
@@ -105,53 +110,56 @@
 		});
 		
 		
-		$("#editBtn").on('click', function() {
-			let title = $("#titleInclude").val();
-			console.log(title)
-			let content = $("#contentInclude").val();
-			console.log(content);
-			let novelId = $(this).data("novel-id");
-			let contentId = $(this).data("content-id");
-			console.log(contentId);
-			let uploadTime = $("#LocalDateTimeBtn").val().trim();
+	
 			
 			
-			if (!title) {
-				alert("제목을 입력하세요");
-				return;
-			}
 			
-			if (!content) {
-				alert("내용을 입력하세요");
-				return;
-			}
-			
-			console.log(title);
-			console.log(content);
-			console.log(novelId);
-			
-			
-			// AJAX
-			$.ajax({
-				// request
-				type:"put"
-				, url:"/content/update"
-				, data:{"title": title, "content":content, "novelId":novelId, "uploadTime":uploadTime, "contentId":contentId}
-				// response
-				, success:function(data) {
-					if (data.code == 200) {
-						alert("글이 수정되었습니다.");
-						location.href = "/content/content-list-view?novelId="+novelId;
-					} else {
-						alert(data.error_message);
+			$("#editBtn").on('click', function() {
+				let title = $("#titleInclude").val();
+				console.log(title)
+				let content = $("#contentInclude").val();
+				console.log(content);
+				let novelId = $(this).data("novel-id");
+				let contentId = $(this).data("content-id");
+				console.log(contentId);
+				let uploadTime = $("#LocalDateTimeBtn").val().trim();
+				
+				
+				if (!title) {
+					alert("제목을 입력하세요");
+					return;
+				}
+				
+				if (!content) {
+					alert("내용을 입력하세요");
+					return;
+				}
+				
+				console.log(title);
+				console.log(content);
+				console.log(novelId);
+				
+				
+				// AJAX
+				$.ajax({
+					// request
+					type:"patch"
+					, url:"/content/update"
+					, data:{"title": title, "content":content, "novelId":novelId, "uploadTime":uploadTime, "contentId":contentId}
+					// response
+					, success:function(data) {
+						if (data.code == 200) {
+							alert("글이 수정되었습니다.");
+							location.href = "/content/content-list-view?novelId="+novelId;
+						} else {
+							alert(data.error_message);
+						}
 					}
-				}
-				, error:function(e) {
-					alert("글을 저장하는데 실패했습니다.");
-				}
+					, error:function(e) {
+						alert("글을 저장하는데 실패했습니다.");
+					}
 			});
 		});
-		
 		
 		
 		// 모두 지우기

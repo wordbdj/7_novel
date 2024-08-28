@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -54,24 +54,29 @@ public class ContentRestController {
 		
 	}
 	
-	@PutMapping("/update")
+	@PatchMapping("/update")
 	public Map<String, Object> update(
 			@RequestParam("title")String title,
 			@RequestParam("content")String content,
 			@RequestParam("novelId") int novelId,
 			@RequestParam("contentId") int contentId,
-			@RequestParam(value = "uploadTime", required = false) LocalDateTime uploadTime,
+			@RequestParam(value = "uploadTime", required = false) Integer uploadTime,
 			HttpSession session){
 		
 		int userId = (int) session.getAttribute("userId");
+		LocalDateTime time = LocalDateTime.now();
+
 		
 		if (uploadTime == null) {
-			LocalDateTime time = LocalDateTime.now();
 			LocalDateTime  DayPast = time.plusDays(1);
-			uploadTime = DayPast;
+			time = DayPast;
+		} else if (uploadTime != null) {
+			LocalDateTime  DayPast = time.plusHours(uploadTime);
+			time = DayPast;
+
 		}
 		
-		Integer Content = contentBO.updateContentByUserIdNovelIdContentId(userId, novelId, contentId, title, content, uploadTime);
+		Integer Content = contentBO.updateContentByUserIdNovelIdContentId(userId, novelId, contentId, title, content, time);
 		
 		Map<String, Object> result = new HashMap<>();
 		
